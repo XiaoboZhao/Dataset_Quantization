@@ -61,9 +61,9 @@ def main():
     args.selection_batch = args.batch
     print(args)
     if args.save_path != "" and not os.path.exists(args.save_path):
-        os.mkdirs(args.save_path, exist_ok=True)
+        os.makedirs(args.save_path, exist_ok=True)
     if not os.path.exists(args.data_path):
-        os.mkdirs(args.data_path)
+        os.makedirs(args.data_path, exist_ok=True)
 
     # conduct non-overlapping coreset selection for multiple times
     for exp in range(args.num_exp):
