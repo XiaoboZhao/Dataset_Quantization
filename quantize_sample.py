@@ -59,6 +59,7 @@ def main():
     args.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     args.selection_batch = args.batch
+    print(args)
     if args.save_path != "" and not os.path.exists(args.save_path):
         os.mkdir(args.save_path)
     if not os.path.exists(args.data_path):
