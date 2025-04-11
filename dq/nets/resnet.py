@@ -166,7 +166,9 @@ def ResNet(arch: str, channel: int, num_classes: int, im_size, record_embedding:
         else:
             raise ValueError("Model architecture not found.")
         from torch.hub import load_state_dict_from_url
-        model_urls = {'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth'}
+        model_urls = {
+            'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
+            'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth'}
         state_dict = load_state_dict_from_url(model_urls[arch], progress=True)
         net.load_state_dict(state_dict)
 
