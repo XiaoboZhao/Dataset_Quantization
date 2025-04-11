@@ -67,7 +67,7 @@ def main():
 
     # save the selection results
     select_save_path = os.path.join(
-        args.save_path, 'select_indices_{}_{}.npy'.format(args.dataset, args.fraction)
+        args.save_path, 'select_indices_{}_{}_{}.npy'.format(args.dataset, args.fraction, args.seed)
     )
     np.save(select_save_path, all_mapped_indices)
 
