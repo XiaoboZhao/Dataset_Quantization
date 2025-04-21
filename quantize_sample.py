@@ -86,7 +86,7 @@ def main():
 
         # Create data loader
         train_loader = torch.utils.data.DataLoader(
-            mnist_train, batch_size=args.batch, shuffle=True, 
+            train_dataset, batch_size=args.batch, shuffle=True, 
             num_workers=args.workers, pin_memory=True
         )
 
