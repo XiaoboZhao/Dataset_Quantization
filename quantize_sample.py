@@ -8,7 +8,7 @@ import dq.methods as methods
 import dq.datasets as datasets
 from dq.nets import LeNet5
 from util.utils import str_to_bool
-imort torchvision
+import torchvision
 from torchvision import transforms
 
 
