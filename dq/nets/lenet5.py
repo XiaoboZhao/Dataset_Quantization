@@ -5,9 +5,6 @@ from torch import set_grad_enabled, flatten, Tensor
 from .nets_utils import EmbeddingRecorder
 import torch
 import os
-from pathlib import Path
-import torchvision
-from torchvision import datasets, transforms
 import time
 
 

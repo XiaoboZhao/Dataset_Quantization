@@ -9,6 +9,8 @@ import dq.datasets as datasets
 from dq.nets import LeNet5
 from util.utils import str_to_bool
 
+from torchvision import datasets, transforms
+
 
 def main():
     parser = argparse.ArgumentParser(description='Parameter Processing')
