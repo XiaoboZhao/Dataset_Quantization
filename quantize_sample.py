@@ -99,7 +99,7 @@ def main():
         model.train()
 
         # Train for 10 epochs
-        for epoch in range(10):
+        for epoch in range(1):
             for inputs, targets in train_loader:
                 inputs, targets = inputs.to(device), targets.to(device)
                 optimizer.zero_grad()

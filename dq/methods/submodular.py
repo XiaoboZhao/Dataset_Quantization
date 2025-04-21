@@ -61,6 +61,7 @@ class Submodular(EarlyTrain):
 
         for i, (input, targets) in enumerate(batch_loader):
             self.model_optimizer.zero_grad()
+            print(input.shape)
             outputs = self.model(input.to(self.args.device))
             loss = self.criterion(torch.nn.functional.softmax(outputs.requires_grad_(True), dim=1),
                                   targets.to(self.args.device)).sum()
