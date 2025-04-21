@@ -9,7 +9,7 @@ import dq.datasets as datasets
 from dq.nets import LeNet5
 from util.utils import str_to_bool
 
-from torchvision import datasets, transforms
+from torchvision import transforms
 
 
 def main():
