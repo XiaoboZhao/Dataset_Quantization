@@ -94,16 +94,17 @@ def main():
         criterion = torch.nn.CrossEntropyLoss()
         optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
+        model.train()
+
         # Train for 10 epochs
         for epoch in range(10):
-            model.train()
             for inputs, targets in train_loader:
-            inputs, targets = inputs.to(device), targets.to(device)
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, targets)
-            loss.backward()
-            optimizer.step()
+                inputs, targets = inputs.to(device), targets.to(device)
+                optimizer.zero_grad()
+                outputs = model(inputs)
+                loss = criterion(outputs, targets)
+                loss.backward()
+                optimizer.step()
             print(f'Epoch {epoch+1}/10 completed')
 
         # Save the pretrained model
