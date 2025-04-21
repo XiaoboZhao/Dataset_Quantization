@@ -104,6 +104,8 @@ class EarlyTrain(CoresetMethod):
             self.args.channel, self.dst_pretrain_dict["num_classes"] if self.if_dst_pretrain else self.num_classes,
             pretrained=self.torchvision_pretrain,
             im_size=(224, 224) if self.torchvision_pretrain else self.args.im_size).to(self.args.device)
+            print(f"Using model: {self.model}")
+            print(f'im_size: {self.args.im_size}')
 
         if self.args.device == "cpu":
             print("Using CPU.")

@@ -73,7 +73,7 @@ def LeNet(channel: int, num_classes: int, im_size, record_embedding: bool = Fals
         ])
 
         # Download and load MNIST dataset
-        train_dataset = datasets.MNIST(root='./kaggle/working/data_MNIST', train=True, download=True, transform=transform)
+        train_dataset = datasets.MNIST(root='./data_MNIST', train=True, download=True, transform=transform)
         train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
 
         # Define loss function and optimizer
@@ -125,7 +125,7 @@ def LeNet(channel: int, num_classes: int, im_size, record_embedding: bool = Fals
 
         return model
     
-    if channel == 1 and (im_size[0] == 28 or im_size[0] == 32) and (im_size[1] == 28 or im_size[1] == 32):
+    elif channel == 1 and (im_size[0] == 28 or im_size[0] == 32) and (im_size[1] == 28 or im_size[1] == 32):
         return LeNet5(channel=channel, num_classes=num_classes, 
                      record_embedding=record_embedding, no_grad=no_grad)
     else:
