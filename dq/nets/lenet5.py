@@ -57,71 +57,14 @@ class LeNet5(nn.Module):
 def LeNet(channel: int, num_classes: int, im_size, record_embedding: bool = False, no_grad: bool = False, 
          pretrained: bool = False):
     if pretrained:
-        time_start = time.time()
-        # Create a model instance
-        model = LeNet5(channel=channel, num_classes=num_classes,
-                      record_embedding=record_embedding, no_grad=no_grad)
-
-        # Train the model on MNIST dataset
-        import torch.optim as optim
-
-        # Define transformations
-        transform = transforms.Compose([
-            transforms.Resize((32, 32)),  # LeNet-5 expects 32x32 images
-            transforms.ToTensor(),
-            transforms.Normalize((0.1307,), (0.3081,))
-        ])
-
-        # Download and load MNIST dataset
-        train_dataset = datasets.MNIST(root='./data_MNIST', train=True, download=True, transform=transform)
-        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
-
-        # Define loss function and optimizer
-        criterion = nn.CrossEntropyLoss()
-        optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-
-        # Train the model
-        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        model.to(device)
-        model.train()
-
-        print("Training LeNet5 model on MNIST dataset for 10 epochs...")
-        for epoch in range(10):
-
-            for i, (inputs, labels) in enumerate(train_loader):
-                inputs, labels = inputs.to(device), labels.to(device)
-                
-                optimizer.zero_grad()
-                outputs = model(inputs)
-                loss = criterion(outputs, labels)
-                loss.backward()
-                optimizer.step()
-
-        # Save the trained model
-        os.makedirs(os.path.join(os.path.dirname(__file__), "pretrained"), exist_ok=True)
-        weights_path = os.path.join(os.path.dirname(__file__), "pretrained", "lenet_mnist_10epochs.pth")
-        torch.save(model.state_dict(), weights_path)
-
-        model.eval()
-        model = LeNet5(channel=channel, num_classes=num_classes,
-                      record_embedding=record_embedding, no_grad=no_grad)
-
-        # Define the path for pre-trained weights
-        weights_path = os.path.join(os.path.dirname(__file__), "pretrained", "lenet_mnist_10epochs.pth")
-
-        # Check if weights exist
-        if not os.path.exists(weights_path):
-            raise FileNotFoundError(
-                f"Pre-trained weights for LeNet5 on MNIST (10 epochs) not found at {weights_path}. "
-                f"Please train the model first and place the weights at this location."
-            )
-
-        # Load pre-trained weights
-        model.load_state_dict(torch.load(weights_path))
-        model.eval()
-
-        time_end = time.time()
-        print(f"Model pre-trained on full MNIST for 10 epochs in {time_end - time_start:.2f} seconds.")
+        # Check if the pretrained model exists
+        pretrained_path = os.path.join('/kaggle/working', 'pretrained_lenet5_mnist.pth')
+        if os.path.exists(pretrained_path):
+            print(f"Loading pretrained model from {pretrained_path}")
+            model = LeNet5(channel=channel, num_classes=num_classes, record_embedding=record_embedding, no_grad=no_grad)
+            model.load_state_dict(torch.load(pretrained_path))
+        else:
+            raise FileNotFoundError(f"Pretrained model not found at {pretrained_path}")
 
         return model
     

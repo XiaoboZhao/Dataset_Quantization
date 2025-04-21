@@ -6,6 +6,7 @@ import numpy as np
 
 import dq.methods as methods
 import dq.datasets as datasets
+from dq.nets import LeNet5
 from util.utils import str_to_bool
 
 
@@ -64,6 +65,53 @@ def main():
         os.makedirs(args.save_path, exist_ok=True)
     if not os.path.exists(args.data_path):
         os.makedirs(args.data_path, exist_ok=True)
+
+    if args.pretrained and args.dataset == 'MNIST':
+        print('Training LeNet5 on full MNIST for 10 epochs as pretrained model')
+        start_time = time.time()
+        # Use the imported LeNet5 model
+        model = LeNet5()
+
+        # Define transformations
+        transform = transforms.Compose([
+            transforms.Resize((32, 32)),  # LeNet-5 expects 32x32 images
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,))
+        ])
+
+        # Download and load MNIST dataset
+        train_dataset = datasets.MNIST(root='./data_MNIST', train=True, download=True, transform=transform)
+
+        # Create data loader
+        train_loader = torch.utils.data.DataLoader(
+            mnist_train, batch_size=args.batch, shuffle=True, 
+            num_workers=args.workers, pin_memory=True
+        )
+
+        # Setup training
+        device = torch.device(args.device)
+        model = model.to(device)
+        criterion = torch.nn.CrossEntropyLoss()
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+
+        # Train for 10 epochs
+        for epoch in range(10):
+            model.train()
+            for inputs, targets in train_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+            loss.backward()
+            optimizer.step()
+            print(f'Epoch {epoch+1}/10 completed')
+
+        # Save the pretrained model
+        pretrained_path = os.path.join('/kaggle/working', 'pretrained_lenet5_mnist.pth')
+        torch.save(model.state_dict(), pretrained_path)
+        end_time = time.time()
+        print(f"Model pre-trained on full MNIST for 10 epochs in {end_time - start_time:.2f} seconds.")
+        print(f'Pretrained model saved to {pretrained_path}')
 
     # conduct non-overlapping coreset selection for multiple times
     for exp in range(args.num_exp):
