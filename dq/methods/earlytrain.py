@@ -43,7 +43,6 @@ class EarlyTrain(CoresetMethod):
         self.torchvision_pretrain = torchvision_pretrain
         self.if_dst_pretrain = (len(self.dst_pretrain_dict) != 0)
 
-        print(f'torchvision pretrained is {torchvision_pretrain}, im_size: {args.im_size}, channel: {args.channel}')
         if torchvision_pretrain:
             # Pretrained models in torchvision only accept 224*224 inputs, therefore we resize current
             # datasets to 224*224. only when dataset is not mnist
@@ -106,8 +105,6 @@ class EarlyTrain(CoresetMethod):
             self.args.channel, self.dst_pretrain_dict["num_classes"] if self.if_dst_pretrain else self.num_classes,
             pretrained=self.torchvision_pretrain,
             im_size=(224, 224) if self.torchvision_pretrain else self.args.im_size).to(self.args.device)
-        print(f"Using model: {self.model}")
-        print(f'im_size: {self.args.im_size}')
 
         if self.args.device == "cpu":
             print("Using CPU.")
