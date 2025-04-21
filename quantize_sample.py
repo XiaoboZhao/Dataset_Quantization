@@ -8,7 +8,7 @@ import dq.methods as methods
 import dq.datasets as datasets
 from dq.nets import LeNet5
 from util.utils import str_to_bool
-
+imort torchvision
 from torchvision import transforms
 
 
@@ -82,7 +82,7 @@ def main():
         ])
 
         # Download and load MNIST dataset
-        train_dataset = datasets.MNIST(root='./data_MNIST', train=True, download=True, transform=transform)
+        train_dataset = torchvision.datasets.MNIST(root='./data_MNIST', train=True, download=True, transform=transform)
 
         # Create data loader
         train_loader = torch.utils.data.DataLoader(
@@ -120,18 +120,7 @@ def main():
     for exp in range(args.num_exp):
         print('\n================== Exp %d ==================\n' % exp)
         print(args)
-        
-        # Add these lines before the problematic line to see what's happening
-        print(f"args.dataset: {args.dataset}")
-        print(f"Available datasets: {list(datasets.__dict__.keys())}")
-        print(f"Is function available: {args.dataset in datasets.__dict__}")
-
-        if args.dataset in datasets.__dict__:
-            dataset_func = datasets.__dict__[args.dataset]
-            print(f"Type of function: {type(dataset_func)}")
-            result = dataset_func(args.data_path)
-            print(f"Number of returned values: {len(result) if isinstance(result, tuple) else 1}")
-
+    
         channel, im_size, num_classes, class_names, mean, std, dst_train, dst_test = datasets.__dict__[args.dataset] \
             (args.data_path)
         args.channel, args.im_size, args.num_classes, args.class_names = channel, im_size, num_classes, class_names
